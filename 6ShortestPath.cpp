@@ -1,4 +1,16 @@
 // unsolved
+// I've implemented Dikshtra's algotithm, still it doesn't work. I don't know why. 
+// My ans 452.42 isn't accepted as ans which is right by Dikstra's
+/*
+	To check I'd implement on 
+    	float A[5][5]={0, 15, 4, 2, 8,
+				   15, 0, 13, 9, 7,
+				   4, 13, 0, 5, 7,
+				   2, 9, 5, 0, 5,
+				   8, 7, 7, 5, 0};
+                   
+	For which the shortest path is 7.00. and my code works correctly. Either there is scoemthing wrong with the question or I have to apply a different appreach
+*/
 
 /************************************************************************************************/
 /*					PROBLEM INSTRUCTIONS					*/
@@ -32,20 +44,43 @@ int main()
 	distance=shortest_path(A);
 	cout<<fixed;
 	cout.precision(2);
-	cout<<distance;
+	cout<<distance << endl;
 	return 0;
 }
+
 float shortest_path(float paths[20][20])
 {
-	float shortest_distance;
-	vector< vector<bool> > isVisited(20, vector<bool> (20, false));
-	vector< vector<float> > minDistance(20, vector<float> (20, FLT_MAX));
-	//queue< pair >
+	float shortest_distance = 0.0;
+	
+	vector< bool > isVisited(20, false);
+	vector< float > minDistance(20, FLT_MAX);
+	queue<int> q;
+		
+	// initialize queue
+	q.push(0);		
+	minDistance[0] = 0;
+	
+	while(!q.empty())
+	{
+		int pos = q.front();
+		q.pop();
+		isVisited[pos] = true;
+		//cout << "visited" << pos << endl;
 
-	minDistance[0][0] = 0;
-	isVisited[0][0] = true;
+		for(int i=0; i<20; i++)
+		{
+			if(i==pos)		// distance from i to i is 0;
+				continue;
+			if(isVisited[i] == true)		// if already visited
+				continue;
+			float dist = minDistance[pos]+paths[pos][i];	// get the min distance from start to that point
+			if(dist < minDistance[i])
+				minDistance[i] = dist;
+			q.push(i);
+		}
 
+	}
 
-
+	shortest_distance = minDistance[19];
 	return shortest_distance;
 }
