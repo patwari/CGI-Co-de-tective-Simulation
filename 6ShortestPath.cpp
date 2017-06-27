@@ -71,12 +71,11 @@ float shortest_path(float paths[20][20])
 		{
 			if(i==pos)		// distance from i to i is 0;
 				continue;
-			if(isVisited[i] == true)		// if already visited
-				continue;
 			float dist = minDistance[pos]+paths[pos][i];	// get the min distance from start to that point
 			if(dist < minDistance[i])
 				minDistance[i] = dist;
-			q.push(i);
+			if(isVisited[i] == false)		// if not already visited
+			q.push(i);				// enqueue only those which are unvisited yet
 		}
 
 	}
